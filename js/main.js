@@ -8,8 +8,8 @@
  *
  * -Joe */
 
-import { createApp } from '/js/petite-vue.module.js'
-import { dataURLtoFile, buildWad, displayImg, retrieveTexture, getWadHeader, getWadEntries, isValidWad,  ERRORS } from '/js/helpers.js'
+import { createApp } from './petite-vue.module.js'
+import { dataURLtoFile, buildWad, displayImg, retrieveTexture, getWadHeader, getWadEntries, isValidWad,  ERRORS } from './helpers.js'
 
 
 
@@ -333,7 +333,7 @@ createApp({
 	},
 
 	mergeWad(event) {
-		if ( !event.srcElement.files.length) return
+		if (!event.srcElement.files.length) return
 
 		let file = event.srcElement.files[0]
 		this.showStatus('Merging WAD file...')
@@ -392,6 +392,6 @@ createApp({
 		}.bind(this)
 
 		reader.readAsArrayBuffer(file)
-	}
+	},
 }).mount('#app')
 
