@@ -331,5 +331,67 @@ createApp({
 		// Invoke FileReader with the image file
 		reader.readAsDataURL(imgFile)
 	},
+
+	mergeWad(event) {
+		if ( !event.srcElement.files.length) return
+
+		let file = event.srcElement.files[0]
+		this.showStatus('Merging WAD file...')
+		this.interfaceDisabled = true;
+
+		let reader = new FileReader()
+
+		reader.onload = function() {
+			let mergeDataView = new DataView(reader.result)
+
+			if (!isValidWad(mergeDataView)) {
+				this.throwError(ERRORS.INVALID)
+				this.interfaceDisabled = false;
+				return
+			}
+
+			let header = getWadHeader(mergeDataView)
+
+			let entries = getWadEntries(
+				mergeDataView,
+				header.dirOffset,
+				header.nEntries
+			)
+
+			let newTexturesCount = 0
+			let duplicatesCount = 0
+			let duplicateNames = []
+
+			for (let i = 0; i < entries.length; ++i) {
+				let newTexture = retrieveTexture(mergeDataView, entries[i])
+
+				let isDuplicate = false
+
+				for (let j = 0; j < this.textures.length; ++j) {
+					if (this.textures[j].name.toLowerCase() === newTexture.name.toLowerCase()) {
+						isDuplicate = true
+						break
+					}
+				}
+
+				if (isDuplicate) {
+					++duplicatesCount
+					duplicateNames.push(newTexture.name)
+				} else {
+					this.textures.push(newTexture)
+					++newTexturesCount
+				}
+			}
+
+			this.showStatus(`Merged WAD: Added ${newTexturesCount} new textures. Filtered ${duplicatesCount} duplicates.`)
+
+			if (duplicatesCount > 0)
+				console.log('Non-merged duplicates: ', duplicateNames)
+
+			this.interfaceDisabled = false
+		}.bind(this)
+
+		reader.readAsArrayBuffer(file)
+	}
 }).mount('#app')
 

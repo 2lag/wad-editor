@@ -4,26 +4,20 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="canonical" href="https://waditor.pigeonivy.com" />
     <meta
       name="description"
       content="Waditor helps you create, modify, and export Half-Life WAD3 (.wad) files online in the browser."
     />
-    <meta name="author" content="@rehhouari" />
     <title>Waditor - Online Half-Life WAD Editor & Creator</title>
-
     <!-- Social meta tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="rehhouari" />
     <meta name="twitter:title" content="Waditor - Online Half-Life WAD Editor & Creator" />
     <meta name="twitter:description" content="Waditor helps you create, modify, and export Half-Life WAD3 (.wad) files online in the browser." />
-    <meta name="twitter:image" content="https://waditor.pigeonivy.com/images/twimage.png" />
     <meta property="og:title" content="Waditor - Online Half-Life WAD Editor & Creator">
     <meta property="og:site_name" content="Waditor">
-    <meta property="og:url" content="https://waditor.pigeonivy.com" itemprop="thumbnailUrl">
+    <meta property="og:url" content="https://kuso.day/wad-editor/index.html" itemprop="thumbnailUrl">
     <meta property="og:description" content="Waditor helps you create, modify, and export Half-Life WAD3 (.wad) files online in the browser.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://waditor.pigeonivy.com/waditor-ogimage.png">
 
     <script src="/js/windicss.js" defer init></script>
     <script type="module" src="/js/main.js"></script>
@@ -155,6 +149,21 @@
               >
                 Add Texture
               </button>
+              <input
+                id="merge_wad"
+                type="file"
+                accept=".wad"
+                @change="mergeWad(event)"
+                hidden
+              />
+              <button
+                :disabled="interfaceDisabled || !uploaded"
+                class="self-end h-8 px-3 font-semibold transition rounded-lg enabled:cursor-pointer bg-gray-300 focus:outline-none focus:ring-2 focus:ring-cool-gray-800 focus:ring-inset enabled:text-gray-800 hover:text-cool-gray-800"
+                @click="merge_wad.click()"
+                type="button"
+              >
+                Merge WAD
+              </button>
             </div>
           </div>
           <!-- Canvas Display -->
@@ -253,12 +262,18 @@
       <div class="p-4 text-sm flex-col">
         <p>
           by
-          <a href="https://github.com/rehhouari" class="text-gray-300"
-            >Rafik @rehhouari</a
+          <a href="https://github.com/2lag" class="text-gray-300"
+            >day @2lag</a
           >.
         </p>
         <p>
           Forked from
+          <a href="https://github.com/rehhouari/wad-editor" class="text-gray-300"
+            >Rehhouari's WAD editor</a
+          >.
+        </p>
+        <p>
+          Which is forked from
           <a href="https://github.com/josephfortune/wad-editor" class="text-gray-300"
             >Joe's WAD editor</a
           >.
